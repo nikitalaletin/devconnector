@@ -52,13 +52,14 @@ router.post(
     if (req.body.location) profileFields.location = req.body.location;
     if (req.body.status) profileFields.status = req.body.status;
     if (req.body.bio) profileFields.bio = req.body.bio;
-    if (req.body.githubusername) profileFields.githubusername = req.body.githubusername;
-    // Skills  - Split into arra 
-    if (typeof req.body.skills !== 'undefined') {
-      profileFields.skills = req.body.skills.split(',');
+    if (req.body.githubusername)
+      profileFields.githubusername = req.body.githubusername;
+    // Skills  - Split into arra
+    if (typeof req.body.skills !== "undefined") {
+      profileFields.skills = req.body.skills.split(",");
     }
 
-    // Social 
+    // Social
     profileFields.social = {};
     if (req.body.youtube) profileFields.youtube = req.body.youtube;
     if (req.body.twitter) profileFields.twitter = req.body.twitter;
@@ -66,34 +67,29 @@ router.post(
     if (req.body.linkedin) profileFields.linkedin = req.body.linkedin;
     if (req.body.instagram) profileFields.instagram = req.body.instagram;
 
-    Profile.findOne({user: req.user.id})
-      .then(profile => {
-        if (profile) {
-          //Update
-          Profile.findByIdAndUpdate(
-            {user: req.user.id}, 
-            {$set: profileFields},
-            {new: true} 
-          )
-          .then(profile => res.json(profile));
-        } else {
-          // Create 
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      if (profile) {
+        //Update
+        Profile.findByIdAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        ).then(profile => res.json(profile));
+      } else {
+        // Create
 
-          // Check if handle exists
-          Profile.findOne({handle: profileFields.handle})
-            .then(profile => {
-              if (profile) {
-                errors.handle = 'That handle already exists'; 
-                res.status(400).json(errors);
-              }
+        // Check if handle exists
+        Profile.findOne({ handle: profileFields.handle }).then(profile => {
+          if (profile) {
+            errors.handle = "That handle already exists";
+            res.status(400).json(errors);
+          }
 
-              //Save Profile
-              new Profile(profile).save().then(profile => res.json(profile));
-
-            })
-        }
-      })
-
+          //Save Profile
+          new Profile(profile).save().then(profile => res.json(profile));
+        });
+      }
+    });
   }
 );
 
