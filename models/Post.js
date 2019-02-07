@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//Create Schema
-const PosatSchema = new Schema({
+// Create Schema
+const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: 'users'
   },
   text: {
     type: String,
@@ -15,13 +15,13 @@ const PosatSchema = new Schema({
     type: String
   },
   avatar: {
-    TYPE: String
+    type: String
   },
   likes: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: "users"
+        ref: 'users'
       }
     }
   ],
@@ -29,10 +29,10 @@ const PosatSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: "users"
+        ref: 'users'
       },
       text: {
-        text: String,
+        type: String,
         required: true
       },
       name: {
@@ -53,4 +53,4 @@ const PosatSchema = new Schema({
   }
 });
 
-module.expots = Post = mongoose.model('post', postSchema);
+module.exports = Post = mongoose.model('post', PostSchema);
